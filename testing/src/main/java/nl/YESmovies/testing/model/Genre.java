@@ -1,10 +1,10 @@
 package nl.YESmovies.testing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Genre {
@@ -12,6 +12,15 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("moviesWithGenre")
+    private Set<Movie> moviesWithGenre = new HashSet<>();
+
+    public void addMovie(Movie movie){
+        this.moviesWithGenre.add(movie);
+        movie.getGenresOfMovie().add(this);
+    }
 
     private String name;
 
@@ -26,10 +35,12 @@ public class Genre {
     public void setName(String name) {
         this.name = name;
     }
-/*
-    private HashSet<Movie> movies;
 
-    private HashSet<YesProfile> yesProfiles;
-*/
+    public Set<Movie> getMoviesWithGenre() {
+        return moviesWithGenre;
+    }
 
+    public void setMoviesWithGenre(Set<Movie> moviesWithGenre) {
+        this.moviesWithGenre = moviesWithGenre;
+    }
 }
