@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/movies")
+@RequestMapping("api/genres")
 public class GenreController {
 
     private GenreService genreService;
