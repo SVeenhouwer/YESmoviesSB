@@ -1,6 +1,9 @@
 package nl.YESmovies.testing.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +12,11 @@ public class Profiles {
     public static ArrayList<Profiles> profileObjectList = new ArrayList<>();
     public static ArrayList<String> profileList = new ArrayList<>();
     private HashMap<String,Float> myRatingsList = new HashMap<String,Float>();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String userName;
     private ArrayList<String> watchedMovies;
     private String[] preferredGenresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",

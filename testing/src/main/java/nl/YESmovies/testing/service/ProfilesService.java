@@ -25,4 +25,8 @@ public class ProfilesService {
     public Iterable<Profiles> findAll() {
         return profilesRepository.findAll();
     }
+
+    public void deleteById(Long aLong) {
+        profilesRepository.deleteById(aLong);
+    }
 }
