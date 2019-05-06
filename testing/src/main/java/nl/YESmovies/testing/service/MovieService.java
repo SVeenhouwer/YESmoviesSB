@@ -14,8 +14,8 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public Movie save(Movie brush) {
-        return this.movieRepository.save(brush);
+    public Movie save(Movie movie) {
+        return this.movieRepository.save(movie);
     }
 
     public Optional<Movie> findById(Long aLong) {
