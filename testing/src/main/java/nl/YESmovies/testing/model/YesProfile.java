@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Entity
-public class Profiles {
-    public static ArrayList<Profiles> profileObjectList = new ArrayList<>();
+public class YesProfile {
+    public static ArrayList<YesProfile> profileObjectList = new ArrayList<>();
     public static ArrayList<String> profileList = new ArrayList<>();
     private HashMap<String,Float> myRatingsList = new HashMap<String,Float>();
 
@@ -95,7 +95,7 @@ public class Profiles {
         this.preferredGenresInt[index] = 0;
     }
 
-    public Profiles(String username) {
+    public YesProfile(String username) {
         this.userName = username;
         profileList.add(username); //Add username to the ArrayList with all usernames
         profileObjectList.add(this);
