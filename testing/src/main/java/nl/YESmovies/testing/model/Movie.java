@@ -15,12 +15,24 @@ public class Movie {
     private long id;
 
     @ManyToMany(mappedBy = "moviesWithGenre", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("genresOfMovie")
+    @JsonIgnoreProperties("moviesWithGenre")
     private Set<Genre> genresOfMovie = new HashSet<>();
 
     public void addGenre(Genre genre){
         this.genresOfMovie.add(genre);
         genre.getMoviesWithGenre().add(this);
+    }
+
+    @OneToMany(mappedBy = "movie")
+    @JsonIgnoreProperties("receivedYesRatings")
+    private Set<Rating> receivedYesRatings = new HashSet<>();
+
+    public Set<Rating> getReceivedYesRatings() {
+        return this.receivedYesRatings;
+    }
+
+    public void addRating(Rating rating) {
+        this.receivedYesRatings.add(rating);
     }
 
     private String title;
