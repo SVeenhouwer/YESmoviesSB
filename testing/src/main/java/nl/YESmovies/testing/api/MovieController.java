@@ -1,7 +1,12 @@
 package nl.YESmovies.testing.api;
 
+import nl.YESmovies.testing.model.Genre;
 import nl.YESmovies.testing.model.Movie;
+import nl.YESmovies.testing.model.Rating;
+import nl.YESmovies.testing.persistence.GenreRepository;
+import nl.YESmovies.testing.service.GenreService;
 import nl.YESmovies.testing.service.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +17,12 @@ import java.util.Optional;
 public class MovieController {
 
     private MovieService movieService;
+    private GenreService genreService;
 
-    public MovieController(MovieService movieService){
+    public MovieController(MovieService movieService, GenreService genreService){
+
         this.movieService = movieService;
+        this.genreService = genreService;
     }
 
     @GetMapping
@@ -51,6 +59,35 @@ public class MovieController {
             return null; // fix this later
         }
     }
+
+    @PutMapping("{movieId}/addgenre/{genreId}")
+    public void addGenreToMovie(@PathVariable long movieId, @PathVariable long genreId) {
+        // fetch movie
+        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+        // fetch genre
+        Optional<Genre> optionalGenre = this.genreService.findById(genreId);
+
+        // add genre to movie list
+        if (optionalMovie.isPresent() && optionalGenre.isPresent()) {
+            (optionalMovie.get()).addGenre(optionalGenre.get());
+            this.movieService.save(optionalMovie.get());
+            this.genreService.save(optionalGenre.get());
+        }
+
+    }
+
+//    @PutMapping("{movieId}/addrating/{ratingId}")
+//    public void addRatingToMovie(@PathVariable long movieId, @PathVariable long ratingId) {
+//        // fetch movie
+//        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+//        // fetch genre
+//        Optional<Rating> optionalRating = this.genreService.findById(ratingId);
+//
+//        // add genre to movie list
+//        if (optionalMovie.isPresent() && optionalGenre.isPresent()) {
+//            (optionalMovie.get()).addGenre(optionalGenre.get());
+//        }
+//    }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable long id) {

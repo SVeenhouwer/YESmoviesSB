@@ -1,9 +1,10 @@
 package nl.YESmovies.testing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -12,6 +13,28 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToMany(mappedBy = "moviesWithGenre", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("moviesWithGenre")
+    private Set<Genre> genresOfMovie = new HashSet<>();
+
+    public void addGenre(Genre genre){
+        this.genresOfMovie.add(genre);
+        genre.getMoviesWithGenre().add(this);
+    }
+
+    @OneToMany(mappedBy = "movie")
+    @JsonIgnoreProperties("receivedYesRatings")
+    private Set<Rating> receivedYesRatings = new HashSet<>();
+
+    public Set<Rating> getReceivedYesRatings() {
+        return this.receivedYesRatings;
+    }
+
+    public void addRating(Rating rating) {
+        this.receivedYesRatings.add(rating);
+    }
+
     private String title;
     private short releaseYear;
     private float yesRating;
@@ -60,5 +83,13 @@ public class Movie {
 
     public void setImdbRating(float imdbRating) {
         this.imdbRating = imdbRating;
+    }
+
+    public Set<Genre> getGenresOfMovie() {
+        return genresOfMovie;
+    }
+
+    public void setGenresOfMovie(Set<Genre> genresOfMovie) {
+        this.genresOfMovie = genresOfMovie;
     }
 }

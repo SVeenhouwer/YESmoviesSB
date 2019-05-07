@@ -1,9 +1,6 @@
 package nl.YESmovies.testing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Rating {
@@ -12,6 +9,9 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private float yesRating;
+
+    @ManyToOne
+    private Movie movie;
 
     public long getId() {
         return id;
