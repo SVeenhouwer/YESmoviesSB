@@ -24,7 +24,6 @@ public class Movie {
     }
 
     @OneToMany(mappedBy = "movie")
-    @JsonIgnoreProperties("receivedYesRatings")
     private Set<Rating> receivedYesRatings = new HashSet<>();
 
     public Set<Rating> getReceivedYesRatings() {
@@ -33,6 +32,7 @@ public class Movie {
 
     public void addRating(Rating rating) {
         this.receivedYesRatings.add(rating);
+        rating.setMovie(this);
     }
 
     private String title;
