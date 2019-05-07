@@ -1,6 +1,8 @@
 package nl.YESmovies.testing.api;
 
+import nl.YESmovies.testing.model.Movie;
 import nl.YESmovies.testing.model.Rating;
+import nl.YESmovies.testing.service.MovieService;
 import nl.YESmovies.testing.service.RatingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class RatingController {
 
     private RatingService ratingService;
+    private MovieService movieService;
 
-    public RatingController(RatingService ratingService){
+    public RatingController(RatingService ratingService, MovieService movieService){
         this.ratingService = ratingService;
+        this.movieService = movieService;
     }
 
     @GetMapping
@@ -25,6 +29,20 @@ public class RatingController {
     @PostMapping
     public Rating create(@RequestBody Rating rating){
         return this.ratingService.save(rating);
+    }
+
+    @PostMapping("{movieId}/addRating")
+    public Rating addRating(@PathVariable long movieId, @RequestBody Rating rating) {
+        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+        if (optionalMovie.isPresent()) {
+            this.ratingService.save(rating);
+            (optionalMovie.get()).addRating(rating);
+            this.ratingService.save(rating);
+            this.movieService.save(optionalMovie.get());
+            return rating;
+        } else {
+            return null; // fix this later ??
+        }
     }
 
     @GetMapping("{id}")
