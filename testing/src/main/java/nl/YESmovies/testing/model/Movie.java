@@ -18,6 +18,11 @@ public class Movie {
     @JsonIgnoreProperties("genresOfMovie")
     private Set<Genre> genresOfMovie = new HashSet<>();
 
+    public void addGenre(Genre genre){
+        this.genresOfMovie.add(genre);
+        genre.getMoviesWithGenre().add(this);
+    }
+
     private String title;
     private short releaseYear;
     private float yesRating;
