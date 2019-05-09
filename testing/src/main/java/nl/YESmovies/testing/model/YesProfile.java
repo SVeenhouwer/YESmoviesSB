@@ -1,10 +1,9 @@
 package nl.YESmovies.testing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -13,6 +12,19 @@ public class YesProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @OneToMany(mappedBy = "yesProfile")
+    private Set<Rating> ratedMovies = new HashSet<>();
+
+    public Set<Rating> getRatedMovies() {
+        return this.ratedMovies;
+    }
+
+    public void addRating(Rating rating) {
+        this.ratedMovies.add(rating);
+        rating.setYesProfile(this);
+    }
+
     private String userName;
     private ArrayList<String> watchedMovies;
 
