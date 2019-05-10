@@ -18,7 +18,7 @@ public class Rating {
     private Movie movie;
 
     @ManyToOne
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties("ratedMovies")
     private YesProfile yesProfile;
 
     public Movie getMovie() {
@@ -29,7 +29,9 @@ public class Rating {
         this.movie = movie;
     }
 
-    public void setYesProfile(YesProfile yesProfile) { this.yesProfile = yesProfile; }
+    public void setYesProfile(YesProfile yesProfile) {
+        this.yesProfile = yesProfile;
+    }
 
     public long getId() {
         return id;

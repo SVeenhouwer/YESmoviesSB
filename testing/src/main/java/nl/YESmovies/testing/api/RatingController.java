@@ -63,6 +63,23 @@ public class RatingController {
         }
     }
 
+    @PostMapping("{movieId}/{yesProfileId}/addRatingToMovieAndProfile")
+    public Rating addRatingToMovieAndProfile(@PathVariable long movieId, @PathVariable long yesProfileId, @RequestBody Rating rating) {
+        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+        Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(yesProfileId);
+        if (optionalMovie.isPresent() && optionalYesProfile.isPresent()) {
+            this.ratingService.save(rating);
+            (optionalMovie.get()).addRating(rating);
+            (optionalYesProfile.get()).addRating(rating);
+            this.ratingService.save(rating);
+            this.movieService.save(optionalMovie.get());
+            this.yesProfileService.save(optionalYesProfile.get());
+            return rating;
+        } else {
+            return null; // fix this later!!!
+        }
+    }
+
     @GetMapping("{id}")
     public Rating get(@PathVariable long id) {
         Optional<Rating> optionalResult = this.ratingService.findById(id);
