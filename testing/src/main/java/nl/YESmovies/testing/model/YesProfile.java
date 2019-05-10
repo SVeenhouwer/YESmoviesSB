@@ -1,6 +1,8 @@
 package nl.YESmovies.testing.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +16,19 @@ public class YesProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @OneToMany(mappedBy = "yesProfile")
+    private Set<Rating> ratedMovies = new HashSet<>();
+
+    public Set<Rating> getRatedMovies() {
+        return this.ratedMovies;
+    }
+
+    public void addRating(Rating rating) {
+        this.ratedMovies.add(rating);
+        rating.setYesProfile(this);
+    }
+
     private String userName;
     private ArrayList<String> watchedMovies;
 
