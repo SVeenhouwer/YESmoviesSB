@@ -1,10 +1,9 @@
 package nl.YESmovies.testing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -13,8 +12,17 @@ public class YesProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToMany(mappedBy="watchedBy", cascade=CascadeType.ALL)
+    private Set<Movie> watchedMovies = new HashSet<>();
+
+    public void addMovie(Movie movie){
+        this.watchedMovies.add(movie);
+        movie.getWatchedBy().add(this);
+    }
+
     private String userName;
-    private ArrayList<String> watchedMovies;
+    //private ArrayList<String> watchedMovies;
 
     public long getId() {
         return id;
@@ -28,11 +36,19 @@ public class YesProfile {
         this.userName = userName;
     }
 
-    public ArrayList<String> getWatchedMovies() {
+/*    public ArrayList<String> getWatchedMovies() {
         return watchedMovies;
     }
 
     public void setWatchedMovies(ArrayList<String> watchedMovies) {
+        this.watchedMovies = watchedMovies;
+    }*/
+
+    public Set<Movie> getWatchedMovies() {
+        return watchedMovies;
+    }
+
+    public void setWatchedMovies(Set<Movie> watchedMovies) {
         this.watchedMovies = watchedMovies;
     }
 }

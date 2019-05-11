@@ -1,19 +1,23 @@
 package nl.YESmovies.testing.api;
 
+import nl.YESmovies.testing.model.Movie;
 import nl.YESmovies.testing.model.YesProfile;
+import nl.YESmovies.testing.service.MovieService;
 import nl.YESmovies.testing.service.YesProfileService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/profiles")
+@RequestMapping("api/yesProfiles")
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
+    private MovieService movieService;
 
-    public YesProfileController(YesProfileService yesProfileService){
+    public YesProfileController(YesProfileService yesProfileService, MovieService movieService){
         this.yesProfileService = yesProfileService;
+        this.movieService = movieService;
     }
 
     @GetMapping
@@ -46,6 +50,20 @@ public class YesProfileController {
             return this.yesProfileService.save(target);
         } else {
             return null; // fix this later!!!
+        }
+    }
+
+    @PutMapping("{yesProfileId}/addWatchedMovie/{movieId}")
+    public void addWatchedMovie(@PathVariable long yesProfileId, @PathVariable long movieId){
+        // fetch yesProfile
+        Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(yesProfileId);
+        // fetch movie
+        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+        // add movie to yesProfile list
+        if(optionalYesProfile.isPresent() && optionalMovie.isPresent()){
+            (optionalYesProfile.get()).addMovie(optionalMovie.get());
+            this.yesProfileService.save(optionalYesProfile.get());
+            this.movieService.save(optionalMovie.get());
         }
     }
 
