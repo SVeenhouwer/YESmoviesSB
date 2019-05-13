@@ -3,6 +3,8 @@ package nl.YESmovies.testing.service;
 import nl.YESmovies.testing.model.Movie;
 import nl.YESmovies.testing.persistence.MovieRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +26,10 @@ public class MovieService {
 
     public Iterable<Movie> findAll() {
         return movieRepository.findAll();
+    }
+
+    public List<Movie> findByTitleAndReleaseYear(String title, short releaseYear) {
+        return this.movieRepository.findByTitleAndReleaseYear(title, releaseYear);
     }
 
     public void deleteById(Long aLong) {

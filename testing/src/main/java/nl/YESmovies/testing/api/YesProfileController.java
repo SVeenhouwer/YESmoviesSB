@@ -35,8 +35,12 @@ public class YesProfileController {
     }
 
     @PostMapping
-    public YesProfile create(@RequestBody YesProfile profiles){
-        return this.yesProfileService.save(profiles);
+    public YesProfile create(@RequestBody YesProfile yesProfile){
+        if ((this.yesProfileService.findByUserName(yesProfile.getUserName())).size() < 1) {
+            return this.yesProfileService.save(yesProfile);
+        } else {
+            return null; // fix this later
+        }
     }
 
     @GetMapping("{id}")

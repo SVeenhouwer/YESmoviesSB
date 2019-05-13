@@ -33,7 +33,9 @@ public class MovieController {
     @PostMapping
     public Movie create(@RequestBody Movie movie){
         LocalDate now = LocalDate.now();
-        if (movie.getReleaseYear() > 1888 && movie.getReleaseYear() < now.getYear() && movie.getImdbRating() > 0 && movie.getImdbRating() < 10) {
+        if (movie.getReleaseYear() > 1888 && movie.getReleaseYear() < now.getYear() &&
+                movie.getImdbRating() > 0 && movie.getImdbRating() < 10
+        && this.movieService.findByTitleAndReleaseYear(movie.getTitle(),movie.getReleaseYear()).size() < 1) {
             return this.movieService.save(movie);
         } else {
             return null; //fix this later
