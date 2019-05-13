@@ -33,7 +33,7 @@ public class MovieController {
     @PostMapping
     public Movie create(@RequestBody Movie movie){
         LocalDate now = LocalDate.now();
-        if (movie.getReleaseYear() > 1888 && movie.getReleaseYear() < now.getYear()) {
+        if (movie.getReleaseYear() > 1888 && movie.getReleaseYear() < now.getYear() && movie.getImdbRating() > 0 && movie.getImdbRating() < 10) {
             return this.movieService.save(movie);
         } else {
             return null; //fix this later
