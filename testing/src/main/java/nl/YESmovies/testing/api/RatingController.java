@@ -35,48 +35,32 @@ public class RatingController {
         return this.ratingService.save(rating);
     }
 
-    @PostMapping("{movieId}/addRatingToMovie")
-    public Rating addRatingToMovie(@PathVariable long movieId, @RequestBody Rating rating) {
-        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
-        if (optionalMovie.isPresent()) {
-            this.ratingService.save(rating);
-            (optionalMovie.get()).addRating(rating);
-            this.ratingService.save(rating);
-            this.movieService.save(optionalMovie.get());
-            return rating;
-        } else {
-            return null; // fix this later ??
-        }
-    }
-
-    @PostMapping("{profileId}/addRatingToProfile")
-    public Rating addRatingToProfile(@PathVariable long profileId, @RequestBody Rating rating) {
-        Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(profileId);
-        if (optionalYesProfile.isPresent()) {
-            this.ratingService.save(rating);
-            (optionalYesProfile.get()).addRating(rating);
-            this.ratingService.save(rating);
-            this.yesProfileService.save(optionalYesProfile.get());
-            return rating;
-        } else {
-            return null; // fix this later ??
-        }
-    }
-
     @PostMapping("{movieId}/{yesProfileId}/addRatingToMovieAndProfile")
     public Rating addRatingToMovieAndProfile(@PathVariable long movieId, @PathVariable long yesProfileId, @RequestBody Rating rating) {
-        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
-        Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(yesProfileId);
-        if (optionalMovie.isPresent() && optionalYesProfile.isPresent()) {
-            this.ratingService.save(rating);
-            (optionalMovie.get()).addRating(rating);
-            (optionalYesProfile.get()).addRating(rating);
-            this.ratingService.save(rating);
-            this.movieService.save(optionalMovie.get());
-            this.yesProfileService.save(optionalYesProfile.get());
-            return rating;
-        } else {
-            return null; // fix this later!!!
+        if (rating.getYesRating() >= 0 && rating.getYesRating() <= 10) {
+            rating.setYesRating((float) Math.round(rating.getYesRating() * 10) / 10);
+
+            Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+            Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(yesProfileId);
+            if (optionalMovie.isPresent() && optionalYesProfile.isPresent()) {
+                this.ratingService.save(rating);
+                (optionalMovie.get()).addRating(rating);
+                (optionalYesProfile.get()).addRating(rating);
+                this.ratingService.save(rating);
+                this.movieService.save(optionalMovie.get());
+                this.yesProfileService.save(optionalYesProfile.get());
+
+                optionalMovie.get().setMeanYesRating();
+
+                this.ratingService.save(rating);
+                this.movieService.save(optionalMovie.get());
+                this.yesProfileService.save(optionalYesProfile.get());
+                return rating;
+            } else {
+                return null; // fix this later!!!
+            }
+        }else{
+            return null; //message for wrong input!!
         }
     }
 
