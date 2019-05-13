@@ -1,5 +1,6 @@
 package nl.YESmovies.testing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,18 @@ public class YesProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @OneToMany(mappedBy = "yesProfile")
+    private Set<Rating> ratedMovies = new HashSet<>();
+
+    public Set<Rating> getRatedMovies() {
+        return this.ratedMovies;
+    }
+
+    public void addRating(Rating rating) {
+        this.ratedMovies.add(rating);
+        rating.setYesProfile(this);
+    }
+
     @ManyToMany(mappedBy="watchedBy", cascade=CascadeType.ALL)
     private Set<Movie> watchedMovies = new HashSet<>();
 
@@ -23,6 +36,23 @@ public class YesProfile {
 
     private String userName;
     //private ArrayList<String> watchedMovies;
+
+    @ManyToMany(mappedBy = "profilesPreferringGenre", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("profilesPreferringGenre")
+    private Set<Genre> preferredGenres = new HashSet<>();
+
+    public void addGenre(Genre genre) {
+        this.preferredGenres.add(genre);
+        genre.getProfilesPreferringGenre().add(this);
+    }
+
+    public Set<Genre> getPreferredGenres() {
+        return preferredGenres;
+    }
+
+    public void setPreferredGenres(Set<Genre> preferredGenres) {
+        this.preferredGenres = preferredGenres;
+    }
 
     public long getId() {
         return id;
