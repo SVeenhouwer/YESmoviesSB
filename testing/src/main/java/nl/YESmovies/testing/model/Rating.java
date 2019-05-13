@@ -28,6 +28,10 @@ public class Rating {
         this.movie = movie;
     }
 
+    public YesProfile getYesProfile() {
+        return yesProfile;
+    }
+
     public void setYesProfile(YesProfile yesProfile) {
         this.yesProfile = yesProfile;
     }
