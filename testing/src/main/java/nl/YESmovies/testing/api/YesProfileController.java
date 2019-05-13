@@ -22,18 +22,13 @@ public class YesProfileController {
 
     private GenreService genreService;
 
-    public YesProfileController(YesProfileService yesProfileService, GenreService genreService) {
+    public YesProfileController(YesProfileService yesProfileService, GenreService genreService, MovieService movieService) {
         this.yesProfileService = yesProfileService;
         this.genreService = genreService;
+        this.movieService = movieService;
     }
 
     private MovieService movieService;
-
-    public YesProfileController(YesProfileService yesProfileService, MovieService movieService){
-        this.yesProfileService = yesProfileService;
-        this.movieService = movieService;
-
-    }
 
     @GetMapping
     public Iterable<YesProfile> list(){
