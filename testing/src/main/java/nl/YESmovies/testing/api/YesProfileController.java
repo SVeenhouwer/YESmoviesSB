@@ -6,7 +6,7 @@ import nl.YESmovies.testing.model.YesProfile;
 import nl.YESmovies.testing.service.GenreService;
 
 import nl.YESmovies.testing.model.Movie;
-import nl.YESmovies.testing.model.YesProfile;
+
 import nl.YESmovies.testing.service.MovieService;
 
 import nl.YESmovies.testing.service.YesProfileService;
