@@ -1,7 +1,6 @@
 package nl.YESmovies.testing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import sun.java2d.cmm.Profile;
 
 import javax.persistence.*;
 
@@ -14,11 +13,11 @@ public class Rating {
     private float yesRating;
 
     @ManyToOne
-    @JsonIgnoreProperties("receivedYesRatings")
+    @JsonIgnoreProperties({"receivedYesRatings","genresOfMovie","watchedBy"})
     private Movie movie;
 
     @ManyToOne
-    @JsonIgnoreProperties("ratedMovies")
+    @JsonIgnoreProperties({"ratedMovies","watchedMovies","preferredGenres"})
     private YesProfile yesProfile;
 
     public Movie getMovie() {
