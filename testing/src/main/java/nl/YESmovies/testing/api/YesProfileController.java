@@ -19,20 +19,13 @@ import java.util.Optional;
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
-
+    private MovieService movieService;
     private GenreService genreService;
 
-    public YesProfileController(YesProfileService yesProfileService, GenreService genreService) {
+    public YesProfileController(YesProfileService yesProfileService, GenreService genreService, MovieService movieService) {
         this.yesProfileService = yesProfileService;
         this.genreService = genreService;
-    }
-
-    private MovieService movieService;
-
-    public YesProfileController(YesProfileService yesProfileService, MovieService movieService){
-        this.yesProfileService = yesProfileService;
         this.movieService = movieService;
-
     }
 
     @GetMapping
