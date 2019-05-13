@@ -1,9 +1,6 @@
 package nl.YESmovies.testing.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,8 +26,16 @@ public class YesProfile {
         rating.setYesProfile(this);
     }
 
+    @ManyToMany(mappedBy="watchedBy", cascade=CascadeType.ALL)
+    private Set<Movie> watchedMovies = new HashSet<>();
+
+    public void addMovie(Movie movie){
+        this.watchedMovies.add(movie);
+        movie.getWatchedBy().add(this);
+    }
+
     private String userName;
-    private ArrayList<String> watchedMovies;
+    //private ArrayList<String> watchedMovies;
 
     @ManyToMany(mappedBy = "profilesPreferringGenre", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("profilesPreferringGenre")
@@ -61,11 +66,19 @@ public class YesProfile {
         this.userName = userName;
     }
 
-    public ArrayList<String> getWatchedMovies() {
+/*    public ArrayList<String> getWatchedMovies() {
         return watchedMovies;
     }
 
     public void setWatchedMovies(ArrayList<String> watchedMovies) {
+        this.watchedMovies = watchedMovies;
+    }*/
+
+    public Set<Movie> getWatchedMovies() {
+        return watchedMovies;
+    }
+
+    public void setWatchedMovies(Set<Movie> watchedMovies) {
         this.watchedMovies = watchedMovies;
     }
 }

@@ -35,6 +35,14 @@ public class Movie {
         rating.setMovie(this);
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("watchedMovies")
+    private Set<YesProfile> watchedBy = new HashSet<>();
+
+    public void addWatchedBy(YesProfile yesProfile){
+        this.watchedBy.add(yesProfile);
+    }
+
     private String title;
     private short releaseYear;
     private float yesRating;
@@ -91,5 +99,13 @@ public class Movie {
 
     public void setGenresOfMovie(Set<Genre> genresOfMovie) {
         this.genresOfMovie = genresOfMovie;
+    }
+
+    public Set<YesProfile> getWatchedBy() {
+        return watchedBy;
+    }
+
+    public void setWatchedBy(Set<YesProfile> watchedBy) {
+        this.watchedBy = watchedBy;
     }
 }

@@ -1,23 +1,38 @@
 package nl.YESmovies.testing.api;
 
+
 import nl.YESmovies.testing.model.Genre;
 import nl.YESmovies.testing.model.YesProfile;
 import nl.YESmovies.testing.service.GenreService;
+
+import nl.YESmovies.testing.model.Movie;
+import nl.YESmovies.testing.model.YesProfile;
+import nl.YESmovies.testing.service.MovieService;
+
 import nl.YESmovies.testing.service.YesProfileService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/profiles")
+@RequestMapping("api/yesProfiles")
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
+
     private GenreService genreService;
 
-    public YesProfileController(YesProfileService yesProfileService, GenreService genreService){
+    public YesProfileController(YesProfileService yesProfileService, GenreService genreService) {
         this.yesProfileService = yesProfileService;
         this.genreService = genreService;
+    }
+
+    private MovieService movieService;
+
+    public YesProfileController(YesProfileService yesProfileService, MovieService movieService){
+        this.yesProfileService = yesProfileService;
+        this.movieService = movieService;
+
     }
 
     @GetMapping
@@ -65,6 +80,20 @@ public class YesProfileController {
             (optionalYesProfile.get()).addGenre(optionalGenre.get());
             this.yesProfileService.save(optionalYesProfile.get());
             this.genreService.save(optionalGenre.get());
+        }
+    }
+
+    @PutMapping("{yesProfileId}/addWatchedMovie/{movieId}")
+    public void addWatchedMovie(@PathVariable long yesProfileId, @PathVariable long movieId){
+        // fetch yesProfile
+        Optional<YesProfile> optionalYesProfile = this.yesProfileService.findById(yesProfileId);
+        // fetch movie
+        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
+        // add movie to yesProfile list
+        if(optionalYesProfile.isPresent() && optionalMovie.isPresent()){
+            (optionalYesProfile.get()).addMovie(optionalMovie.get());
+            this.yesProfileService.save(optionalYesProfile.get());
+            this.movieService.save(optionalMovie.get());
         }
     }
 
