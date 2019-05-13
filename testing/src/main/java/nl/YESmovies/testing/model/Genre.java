@@ -14,7 +14,7 @@ public class Genre {
     private long id;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("genresOfMovie")
+    @JsonIgnoreProperties({"genresOfMovie","watchedBy","receivedRatings"})
     private Set<Movie> moviesWithGenre = new HashSet<>();
 
     public void addMovie(Movie movie){
@@ -23,7 +23,7 @@ public class Genre {
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("preferredGenres")
+    @JsonIgnoreProperties({"preferredGenres","ratedMovies","watchedMovies"})
     private Set<YesProfile> profilesPreferringGenre = new HashSet<>();
 
     public void addYesProfile(YesProfile yesProfile) {
