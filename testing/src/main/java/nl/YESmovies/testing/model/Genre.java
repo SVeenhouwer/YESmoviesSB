@@ -22,6 +22,23 @@ public class Genre {
         movie.getGenresOfMovie().add(this);
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("preferredGenres")
+    private Set<YesProfile> profilesPreferringGenre = new HashSet<>();
+
+    public void addYesProfile(YesProfile yesProfile) {
+        this.profilesPreferringGenre.add(yesProfile);
+        yesProfile.getPreferredGenres().add(this);
+    }
+
+    public Set<YesProfile> getProfilesPreferringGenre() {
+        return profilesPreferringGenre;
+    }
+
+    public void setProfilesPreferringGenre(Set<YesProfile> profilesPreferringGenre) {
+        this.profilesPreferringGenre = profilesPreferringGenre;
+    }
+
     private String name;
 
     public long getId() {
