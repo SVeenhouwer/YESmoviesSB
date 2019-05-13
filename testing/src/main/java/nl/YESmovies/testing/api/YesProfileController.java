@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/yesProfiles")
+@CrossOrigin("*")
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
