@@ -6,10 +6,10 @@ import nl.YESmovies.testing.model.Rating;
 import nl.YESmovies.testing.persistence.GenreRepository;
 import nl.YESmovies.testing.service.GenreService;
 import nl.YESmovies.testing.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -32,7 +32,12 @@ public class MovieController {
 
     @PostMapping
     public Movie create(@RequestBody Movie movie){
-        return this.movieService.save(movie);
+        LocalDate now = LocalDate.now();
+        if (movie.getReleaseYear() > 1888 && movie.getReleaseYear() < now.getYear()) {
+            return this.movieService.save(movie);
+        } else {
+            return null; //fix this later
+        }
     }
 
     @GetMapping("{id}")
