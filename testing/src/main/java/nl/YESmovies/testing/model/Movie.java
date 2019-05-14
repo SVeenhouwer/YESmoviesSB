@@ -46,7 +46,7 @@ public class Movie {
 
     private String title;
     private short releaseYear;
-    private float meanYesRating;
+    private double meanYesRating;
     private int nrRatings;
     private float imdbRating;
 
@@ -70,27 +70,17 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public float getMeanYesRating() {
+    public double getMeanYesRating() {
         return meanYesRating;
     }
-
-//    public static void main(String[] args) {
-//        double total = 0;
-////        for(Rating rating: receivedYesRatings){
-//            total += 32.7f;
-////        }
-//        double mean = total/Double.valueOf(6);
-//        float meanYesRating =(float)(Math.round(mean*10.0f))/10.0f;
-//        System.out.println(meanYesRating);
-//    }
 
     public void setMeanYesRating() {
         double total = 0;
         for(Rating rating: receivedYesRatings){
             total += rating.getYesRating();
         }
-        double mean = total/Double.valueOf(receivedYesRatings.size());
-        this.meanYesRating =(float)(Math.round(mean*10.0f))/10.0f;
+        double mean = total/receivedYesRatings.size();
+        this.meanYesRating =Math.round(mean*10.0)/10.0;
     }
 
     public int getNrRatings() {
