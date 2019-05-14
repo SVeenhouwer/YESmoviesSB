@@ -37,6 +37,7 @@ public class RatingController {
 
     @PostMapping("{movieId}/{yesProfileId}/addRatingToMovieAndProfile")
     public Rating addRatingToMovieAndProfile(@PathVariable long movieId, @PathVariable long yesProfileId, @RequestBody Rating rating) {
+
         if (rating.getYesRating() >= 0 && rating.getYesRating() <= 10) {
             rating.setYesRating((float) Math.round(rating.getYesRating() * 10) / 10);
 
@@ -55,11 +56,18 @@ public class RatingController {
                 this.ratingService.save(rating);
                 this.movieService.save(optionalMovie.get());
                 this.yesProfileService.save(optionalYesProfile.get());
+
+                if (!((optionalYesProfile.get()).getWatchedMovies().contains(optionalMovie.get()))) {
+                    (optionalYesProfile.get()).addMovie(optionalMovie.get());
+                    this.yesProfileService.save(optionalYesProfile.get());
+                    this.movieService.save(optionalMovie.get());
+                }
+
                 return rating;
             } else {
                 return null; // fix this later!!!
             }
-        }else{
+        } else {
             return null; //message for wrong input!!
         }
     }
