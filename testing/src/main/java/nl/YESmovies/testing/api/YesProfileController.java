@@ -20,7 +20,7 @@ import java.util.Optional;
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
-
+    private MovieService movieService;
     private GenreService genreService;
 
     public YesProfileController(YesProfileService yesProfileService, GenreService genreService, MovieService movieService) {
@@ -29,16 +29,18 @@ public class YesProfileController {
         this.movieService = movieService;
     }
 
-    private MovieService movieService;
-
     @GetMapping
     public Iterable<YesProfile> list(){
         return this.yesProfileService.findAll();
     }
 
     @PostMapping
-    public YesProfile create(@RequestBody YesProfile profiles){
-        return this.yesProfileService.save(profiles);
+    public YesProfile create(@RequestBody YesProfile yesProfile){
+        if ((this.yesProfileService.findByUserName(yesProfile.getUserName())).size() < 1) {
+            return this.yesProfileService.save(yesProfile);
+        } else {
+            return null; // fix this later
+        }
     }
 
     @GetMapping("{id}")
