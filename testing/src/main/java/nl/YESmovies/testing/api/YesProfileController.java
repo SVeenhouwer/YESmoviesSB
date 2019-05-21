@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/yesProfiles")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class YesProfileController {
 
     private YesProfileService yesProfileService;
