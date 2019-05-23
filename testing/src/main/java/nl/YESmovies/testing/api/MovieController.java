@@ -31,6 +31,11 @@ public class MovieController {
         return ResponseEntity.ok(this.movieService.findAll());
     }
 
+    @GetMapping("/searchMovies/{myText}")
+    public ResponseEntity<Iterable<Movie>> findSearched(@PathVariable String myText){
+        return ResponseEntity.ok(this.movieService.findSearched(myText));
+    }
+
     @PostMapping
     public Movie create(@RequestBody Movie movie){
         LocalDate now = LocalDate.now();
@@ -83,19 +88,6 @@ public class MovieController {
         }
 
     }
-
-//    @PutMapping("{movieId}/addrating/{ratingId}")
-//    public void addRatingToMovie(@PathVariable long movieId, @PathVariable long ratingId) {
-//        // fetch movie
-//        Optional<Movie> optionalMovie = this.movieService.findById(movieId);
-//        // fetch genre
-//        Optional<Rating> optionalRating = this.genreService.findById(ratingId);
-//
-//        // add genre to movie list
-//        if (optionalMovie.isPresent() && optionalGenre.isPresent()) {
-//            (optionalMovie.get()).addGenre(optionalGenre.get());
-//        }
-//    }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable long id) {

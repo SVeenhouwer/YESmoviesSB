@@ -28,6 +28,10 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public Iterable<Movie> findSearched(String myText){
+        return this.movieRepository.findByTitleContaining(myText);
+    };
+
     public List<Movie> findByTitleAndReleaseYear(String title, short releaseYear) {
         return this.movieRepository.findByTitleAndReleaseYear(title, releaseYear);
     }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface MovieRepository extends CrudRepository<Movie,Long> {
 
     List<Movie> findByTitleAndReleaseYear(String title, short releaseYear);
+    List<Movie> findByTitleContaining(String myText);
 }
